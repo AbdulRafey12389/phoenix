@@ -4,29 +4,31 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 function TextField({
-  classes,
+  classes = '',
   helperText,
   label,
   name,
   placeholder = ' ',
-  fieldClasses,
+  fieldClasses = '',
   ...rest
 }) {
   return (
-    <div className=''>
+    <div className={`text-field-wrapper ${classes}`}>
       <label
         htmlFor={name}
-        className=''
+        className='label-text'
       >
         {label}
       </label>
 
       <input
-        className=''
+        className={`text-field ${fieldClasses}`}
         id={name}
         placeholder={placeholder}
         {...rest}
       />
+
+      {helperText && <p className='helper-text'>{helperText}</p>}
     </div>
   );
 }
