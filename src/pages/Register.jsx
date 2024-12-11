@@ -18,7 +18,7 @@ function Register() {
         <div className='flex flex-col p-4 '>
           <Link
             to='/'
-            className='max-w-max mx-auto lg:max-0'
+            className='max-w-max mb-auto mx-auto lg:max-0'
           >
             <img
               src={logoLight}
@@ -88,16 +88,20 @@ function Register() {
             </p>
           </div>
 
-          <p className=''>&copy; 2025 Abdulrafey. All right reserved.</p>
+          <p className='mt-auto mx-auto text-light-onSurfaceVariant dark:text-dark-onSurfaceVariant text-bodyMedium lg:mx-0'>
+            &copy; 2025 Abdulrafey. All right reserved.
+          </p>
         </div>
 
-        <div className=''>
+        <div className='hidden img-box lg:block lg:relative lg:rounded-large lg:overflow-hidden '>
           <img
             src={banner}
             alt=''
             className='img-cover'
           />
-          <p className=''>Chat with Phoenix to supercharge your ideas.</p>
+          <p className='absolute bottom-10 left-12 right-12 z-10 text-displayLarge font-semibold leading-tight text-right text-light-onSurface drop-shadow-sm 2xl:text-[72px]'>
+            Chat with Phoenix to supercharge your ideas.
+          </p>
         </div>
       </div>
     </>
