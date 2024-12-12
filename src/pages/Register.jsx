@@ -1,8 +1,10 @@
-import React from 'react';
-import { Link, Form } from 'react-router-dom';
+// NODE MODULES...
+import React, { useEffect } from 'react';
+import { Link, Form, useNavigation, useActionData } from 'react-router-dom';
 
 //COMPONENTS...
 import PageTitle from '../components/PageTitle';
+import { CircularProgress } from '../components/Progress';
 
 // CUSTOM MODULS...
 import { logoLight, logoDark, banner } from '../assets/asset';
@@ -10,6 +12,15 @@ import TextField from '../components/TextField';
 import { Button } from '../components/Button';
 
 function Register() {
+  //  GET ERROR DATA FROM FORM SUBMITTION USING USEACTIONDATA (LIKELY FROM ROUTER-DOM)...
+  const error = useActionData();
+
+  useEffect(() => {
+    // SHOW SNACKBAR WITH THE PROVIDED ERROR MESSAGE...
+  }, [error]);
+
+  const navigation = useNavigation();
+
   return (
     <>
       <PageTitle title='Create an account' />
@@ -74,7 +85,16 @@ function Register() {
                 required={true}
               />
 
-              <Button type='submit'>Create account</Button>
+              <Button
+                type='submit'
+                disabled={navigation.state === 'submitting'}
+              >
+                {navigation.state === 'submitting' ? (
+                  <CircularProgress size='small' />
+                ) : (
+                  'Create account'
+                )}
+              </Button>
             </Form>
 
             <p className='text-bodyMedium text-light-onSurfaceVariant dark:text-dark-onSurfaceVariant text-center mt-4'>

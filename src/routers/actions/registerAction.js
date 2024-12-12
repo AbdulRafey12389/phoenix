@@ -1,3 +1,6 @@
+//NODE MODULES...
+import { redirect } from 'react-router-dom';
+
 //CUSTOM MODULES...
 import { account } from '../../lib/appwrite';
 import generateID from '../../utils/generateID';
@@ -9,7 +12,7 @@ const registerAction = async ({ request }) => {
 
   try {
     // CREATES A NEW USERS ACCOUNT USING THE PROVIDED EMAIL, PASSWORD AND NAME...
-    account.create(
+    await account.create(
       generateID(),
       formData.get('email'),
       formData.get('password'),
@@ -21,7 +24,19 @@ const registerAction = async ({ request }) => {
     };
   }
 
-  return null;
+  // AFTER SUCESSFULLY ACCOUNT CREATE, LOGIN THE USER AND REDIRECT TO HOMEPAGE...
+  try {
+    // CREATES A SESSION FOR THE NEW USER WITH THE PROVIDED - EMAIL AND PASSWORD...
+    await account.createEmailPasswordSession(
+      formData.get('email'),
+      formData.get('password'),
+    );
+  } catch (error) {
+    console.log(`Error to creating session: ${error.message}`);
+    return redirect('/login');
+  }
+
+  return redirect('/');
 };
 
 export default registerAction;
