@@ -15,27 +15,28 @@ import { logoLight, logoDark, banner } from '../assets/asset';
 import TextField from '../components/TextField';
 import { Button } from '../components/Button';
 
-function Login() {
+function ResetLink() {
   //  GET ERROR DATA FROM FORM SUBMITTION USING USEACTIONDATA (LIKELY FROM ROUTER-DOM)...
-  const error = useActionData();
+  const actionData = useActionData();
 
   const { showSnackbar } = useSnackbar();
 
   useEffect(() => {
     // SHOW SNACKBAR WITH THE PROVIDED ERROR MESSAGE...
-    if (error?.message) {
+    if (actionData) {
       showSnackbar({
-        message: error.message,
-        type: 'error',
+        message: actionData?.message,
+        type: actionData.ok ? 'info' : 'error',
+        timeOut: 8000,
       });
     }
-  }, [error, showSnackbar]);
+  }, [actionData, showSnackbar]);
 
   const navigation = useNavigation();
 
   return (
     <>
-      <PageTitle title='Login' />
+      <PageTitle title='Reset password' />
 
       <div className='relative w-screen h-dvh p-2 grid grid-cols-1 lg:grid-cols-[1fr,1.2fr] lg:gap-2'>
         <div className='flex flex-col p-4 '>
@@ -61,10 +62,10 @@ function Login() {
 
           <div className='flex flex-col gap-2 max-w-[480px] w-full mx-auto'>
             <h2 className='text-displaySmall font-semibold text-light-onBackground dark:text-dark-onBackground text-center '>
-              Welcome Back to Phoenix
+              Forgot your password?
             </h2>
             <p className='text-bodyLarge text-light-onSurfaceVariant dark:text-dark-onSurfaceVariant mt-1 mb-5 text-center px-2 '>
-              Enter your phoenix account details.
+              Enter your email and we&apos;ll send a password reset link.
             </p>
 
             <Form
@@ -76,26 +77,10 @@ function Login() {
                 name='email'
                 label='Email'
                 placeholder='Email'
+                helperText='The verification link sent to your email address will be valid for 1 hour.'
                 required={true}
                 autoFocus={true}
               />
-
-              <TextField
-                type='password'
-                name='password'
-                label='Password'
-                placeholder='Enter your password'
-                required={true}
-              />
-
-              <div className='text-right'>
-                <Link
-                  to='/reset-link'
-                  className='link text-labelLarge inline-block'
-                >
-                  Forget password?
-                </Link>
-              </div>
 
               <Button
                 type='submit'
@@ -104,20 +89,10 @@ function Login() {
                 {navigation.state === 'submitting' ? (
                   <CircularProgress size='small' />
                 ) : (
-                  'Sign in'
+                  'Get link'
                 )}
               </Button>
             </Form>
-
-            <p className='text-bodyMedium text-light-onSurfaceVariant dark:text-dark-onSurfaceVariant text-center mt-4'>
-              Don&apos;t have an account?{' '}
-              <Link
-                to='/register'
-                className='link text-labelLarge inline-block ms-1 text-light-onSurface dark:text-dark-onSurface'
-              >
-                Create an account
-              </Link>
-            </p>
           </div>
 
           <p className='mt-auto mx-auto text-light-onSurfaceVariant dark:text-dark-onSurfaceVariant text-bodyMedium lg:mx-0'>
@@ -146,4 +121,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default ResetLink;
