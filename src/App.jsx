@@ -1,6 +1,3 @@
-// NODE MODULES...
-import React from 'react';
-
 // COMPONENTS...
 import PageTitle from './components/PageTitle';
 import TopAppBar from './components/TopAppBar';

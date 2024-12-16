@@ -1,5 +1,5 @@
 // NODE MODULES...
-import { Client, Account, ID } from 'appwrite';
+import { Client, Account, Avatars } from 'appwrite';
 
 // INITIAL APPWRITE CLIENT...
 const client = new Client();
@@ -10,4 +10,7 @@ client
 // INITIAL APPWRITE ACCOUNT...
 const account = new Account(client);
 
-export { account };
+// INITIAL APPWRITE AVATARS...
+const avatars = new Avatars(client);
+
+export { account, avatars };
