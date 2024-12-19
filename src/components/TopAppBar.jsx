@@ -8,20 +8,13 @@ import logout from '../utils/logout';
 import { useToggle } from '../hooks/useToggle';
 
 // COMPONENTS...
-import {
-  Link,
-  useNavigate,
-  useNavigation,
-  useLoaderData,
-} from 'react-router-dom';
+import { useNavigate, useNavigation, useLoaderData } from 'react-router-dom';
 import { IconBtn } from './Button';
 import Avatar from './Avatar';
 import Menu from './Menu';
 import MenuItem from './MenuItem';
 import { LinearProgress } from './Progress';
-
-// ASSETS...
-import { logoLight, logoDark } from '../assets/asset';
+import Logo from './Logo';
 
 function TopAppBar() {
   const navigation = useNavigation();
@@ -40,27 +33,7 @@ function TopAppBar() {
           title='Menu'
           classes='lg:hidden'
         />
-
-        <Link
-          to='/'
-          className='min-w-max max-w-max h-[24px] lg:hidden'
-        >
-          <img
-            src={logoLight}
-            width={133}
-            height={24}
-            alt='phoenix logo'
-            className='dark:hidden'
-          />
-
-          <img
-            src={logoDark}
-            width={133}
-            height={24}
-            alt='phoenix logo'
-            className='hidden dark:block'
-          />
-        </Link>
+        <Logo classes='lg:hidden' />
       </div>
 
       <div className='menu-wrapper'>

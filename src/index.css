@@ -407,6 +407,38 @@
       --state-layer-bg: theme('colors.dark.onSurface');
     }
   }
+
+  /** 
+   * SIDEBAR...
+  */
+  .sidebar {
+    @apply bg-light-surfaceContainerLow
+    dark:bg-dark-surfaceContainerLow
+    text-light-onSurface
+    dark:text-dark-onSurface
+    fixed
+    top-0
+    left-0
+    h-dvh
+    w-0
+    max-w-[80vw]
+    rounded-e-large
+    shadow-elevation1
+    overflow-hidden
+    transition-[width]
+    duration-short4
+    ease-emphasized
+    z-40
+
+    sm:max-w-[320px]
+
+    lg:static
+    lg:opacity-100
+    lg:visible
+    lg:w-full
+    lg:shadow-none
+    lg:rounded-none;
+  }
 }
 
 /**
