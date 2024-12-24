@@ -20,6 +20,7 @@ import registerAction from './actions/registerAction';
 import loginAction from './actions/loginAction';
 import resetLinkAction from './actions/resetLinkAction';
 import resetPasswordAction from './actions/resetPasswordAction';
+import appAction from './actions/appAction';
 
 // ROUTER...
 const router = createBrowserRouter([
@@ -27,6 +28,7 @@ const router = createBrowserRouter([
     path: '/',
     element: <App />,
     loader: appLoader,
+    action: appAction,
   },
   {
     path: '/register',

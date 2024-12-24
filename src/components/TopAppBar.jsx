@@ -1,5 +1,6 @@
 // NODE MODULES...
 import { AnimatePresence } from 'framer-motion';
+import PropTypes from 'prop-types';
 
 // CUSTOM MODULES...
 import logout from '../utils/logout';
@@ -16,7 +17,7 @@ import MenuItem from './MenuItem';
 import { LinearProgress } from './Progress';
 import Logo from './Logo';
 
-function TopAppBar() {
+function TopAppBar({ toggleSidebar }) {
   const navigation = useNavigation();
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useToggle();
@@ -32,6 +33,7 @@ function TopAppBar() {
           icon='menu'
           title='Menu'
           classes='lg:hidden'
+          onClick={toggleSidebar}
         />
         <Logo classes='lg:hidden' />
       </div>
@@ -53,5 +55,9 @@ function TopAppBar() {
     </header>
   );
 }
+
+TopAppBar.propTypes = {
+  toggleSidebar: PropTypes.func,
+};
 
 export default TopAppBar;
