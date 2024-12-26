@@ -7,6 +7,7 @@ import Register from '../pages/Register';
 import Login from '../pages/Login';
 import ResetLink from '../pages/ResetLink';
 import ResetPassword from '../pages/ResetPassword';
+import Conversation from '../pages/Conversation';
 
 // LOADERS...
 import registerLoader from './loaders/registerLoader';
@@ -14,6 +15,7 @@ import loginLoader from './loaders/loginLoader';
 import resetLinkLoader from './loaders/resetLinkLoader';
 import resetPasswordLoader from './loaders/resetPasswordLoader';
 import appLoader from './loaders/appLoader';
+import conversationLoader from './loaders/conversationLoader';
 
 // ACTIONS...
 import registerAction from './actions/registerAction';
@@ -29,6 +31,13 @@ const router = createBrowserRouter([
     element: <App />,
     loader: appLoader,
     action: appAction,
+    children: [
+      {
+        path: '/:conversationId',
+        element: <Conversation />,
+        loader: conversationLoader,
+      },
+    ],
   },
   {
     path: '/register',

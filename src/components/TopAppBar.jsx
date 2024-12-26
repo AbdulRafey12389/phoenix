@@ -51,7 +51,11 @@ function TopAppBar({ toggleSidebar }) {
         </Menu>
       </div>
 
-      <AnimatePresence>{isNormalLoad && <LinearProgress />}</AnimatePresence>
+      <AnimatePresence>
+        {isNormalLoad && (
+          <LinearProgress classes='absolute top-full left-0 right-0 z-10' />
+        )}
+      </AnimatePresence>
     </header>
   );
 }

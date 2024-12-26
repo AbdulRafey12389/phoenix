@@ -1,5 +1,6 @@
 // NODE MODULES...
 import { motion } from 'framer-motion';
+import { Outlet, useParams } from 'react-router-dom';
 
 // COMPONENTS...
 import PageTitle from './components/PageTitle';
@@ -11,6 +12,7 @@ import PromtField from './components/PromtField';
 
 function App() {
   const [isSidebarOpen, toggleSidebar] = useToggle();
+  const params = useParams();
 
   return (
     <>
@@ -31,7 +33,7 @@ function App() {
           {/* MAIN-CONTENT */}
           <div className='px-5 pb-5 flex flex-col overflow-y-auto '>
             <div className='max-w-[840px] w-full mx-auto grow'>
-              <Greetings />
+              {params.conversationId ? <Outlet /> : <Greetings />}
             </div>
           </div>
 

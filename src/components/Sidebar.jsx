@@ -1,6 +1,6 @@
 // NODE MODULES...
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLoaderData } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 // COMPONENTS...
@@ -8,6 +8,11 @@ import Logo from './Logo';
 import { ExtendedFab, IconBtn } from './Button';
 
 const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
+  // EXTRACT CONVERSATIONS FROM LOADER DATA IF IT EXISTS...
+  const {
+    conversation: { documents: conversationData },
+  } = useLoaderData() || {};
+
   return (
     <>
       <motion.div
@@ -23,7 +28,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
           <ExtendedFab
             href='/'
             text='New chat'
-            classes=''
+            classes='mb-4'
             onClick={toggleSidebar}
           />
 
@@ -31,29 +36,34 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
             <p className='text-titleSmall h-9 grid items-center px-4'>Recent</p>
 
             <nav>
-              <div className='relative group'>
-                <NavLink
-                  to=''
-                  className='nav-link'
-                  title=''
-                  onClick={toggleSidebar}
+              {conversationData.map((item) => (
+                <div
+                  key={item.$id}
+                  className='relative group'
                 >
-                  <span className='material-symbols-rounded icon-small'>
-                    chat_bubble
-                  </span>
+                  <NavLink
+                    to={item.$id}
+                    className='nav-link'
+                    title={item.title}
+                    onClick={toggleSidebar}
+                  >
+                    <span className='material-symbols-rounded icon-small'>
+                      chat_bubble
+                    </span>
 
-                  <span className='truncate'>New conversation</span>
+                    <span className='truncate'>{item.title}</span>
 
-                  <div className='state-layer'></div>
-                </NavLink>
+                    <div className='state-layer'></div>
+                  </NavLink>
 
-                <IconBtn
-                  icon='delete'
-                  size='small'
-                  classes='absolute top-1/2 right-1.5 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 group:focus-within:opacity-100 hidden lg:grid'
-                  title='Delete '
-                />
-              </div>
+                  <IconBtn
+                    icon='delete'
+                    size='small'
+                    classes='absolute top-1/2 right-1.5 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 group:focus-within:opacity-100 hidden lg:grid'
+                    title='Delete '
+                  />
+                </div>
+              ))}
             </nav>
           </div>
 

@@ -3,10 +3,10 @@ import model from '../lib/googleAi';
 
 const getConversationTitle = async (userPrompt) => {
   try {
-    const result = model.generateContent(
+    const result = await model.generateContent(
       `Given a user prompt, generate a concise and informative title that accurately describes the conversation. Consider keywords, topics, and the overall intent of the prompt. Response in plain text format, not mardown.
             
-            Prompt: ${userPrompt}`,
+      Prompt: ${userPrompt}`,
     );
 
     return result.response.text();
@@ -15,4 +15,16 @@ const getConversationTitle = async (userPrompt) => {
   }
 };
 
-export { getConversationTitle };
+const getAiResponse = async (userPrompt, chats = []) => {
+  try {
+    model.generationConfig = { temperature: 1.5 };
+    const chat = model.startChat({ history: chats });
+    const result = await chat.sendMessage(userPrompt);
+
+    return result.response.text();
+  } catch (error) {
+    console.log(`Error generating Ai Response: ${error.message}`);
+  }
+};
+
+export { getConversationTitle, getAiResponse };

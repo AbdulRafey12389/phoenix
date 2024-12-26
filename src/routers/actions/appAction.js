@@ -1,6 +1,10 @@
+// NODE MODULES...
+import { redirect } from 'react-router-dom';
+
 // CUSTOM MODULES...
-import { account } from '../../lib/appwrite';
-import { getConversationTitle } from '../../api/googleAi';
+import { account, databases } from '../../lib/appwrite';
+import { getConversationTitle, getAiResponse } from '../../api/googleAi';
+import generateID from '../../utils/generateID';
 
 const userPromptAction = async (formData) => {
   const userPrompt = formData.get('user_prompt');
@@ -9,9 +13,45 @@ const userPromptAction = async (formData) => {
   const user = await account.get();
 
   // GET A CONVERSATION TITLE BASED ON USER PROMPT...
-  const conversationTitle = await getConversationTitle();
+  const conversationTitle = await getConversationTitle(userPrompt);
 
-  return null;
+  let conversation = null;
+
+  try {
+    // CREATE A NEW CONVERSATION DOCUMENT IN THE  APPWRITE DATABASE...
+    conversation = await databases.createDocument(
+      import.meta.env.VITE_APPWRITE_DATABASE_ID,
+      'conversations',
+      generateID(),
+      {
+        title: conversationTitle,
+        user_id: user.$id,
+      },
+    );
+  } catch (error) {
+    console.log('Error creating conversation: ', error.message);
+  }
+
+  // GENERATE AI RESPONSE BASED ON THE USER PROMPT...
+  const aiResponse = await getAiResponse(userPrompt);
+
+  try {
+    // CREATE A NEW CHAT DOCUMENT IN THE 'CHATS' COLLECTION...
+    await databases.createDocument(
+      import.meta.env.VITE_APPWRITE_DATABASE_ID,
+      'chats',
+      generateID(),
+      {
+        user_prompt: userPrompt,
+        ai_response: aiResponse,
+        conversation: conversation.$id,
+      },
+    );
+  } catch (error) {
+    console.log(`Error creating chat: ${error.message}`);
+  }
+
+  return redirect(`/${conversation.$id}`);
 };
 
 const appAction = async ({ request }) => {
