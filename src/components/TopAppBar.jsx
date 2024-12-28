@@ -1,15 +1,22 @@
 // NODE MODULES...
+import {
+  useNavigate,
+  useNavigation,
+  useLoaderData,
+  useParams,
+  useSubmit,
+} from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import PropTypes from 'prop-types';
 
 // CUSTOM MODULES...
 import logout from '../utils/logout';
+import deleteConversation from '../utils/deleteConversation';
 
 // CUSTOM HOOKS...
 import { useToggle } from '../hooks/useToggle';
 
 // COMPONENTS...
-import { useNavigate, useNavigation, useLoaderData } from 'react-router-dom';
 import { IconBtn } from './Button';
 import Avatar from './Avatar';
 import Menu from './Menu';
@@ -24,7 +31,11 @@ function TopAppBar({ toggleSidebar }) {
 
   const isNormalLoad = navigation.state === 'loading' && !navigation.formData;
 
-  const { user } = useLoaderData();
+  const { conversations, user } = useLoaderData();
+
+  const param = useParams();
+
+  const submit = useSubmit();
 
   return (
     <header className='relative flex justify-between items-center h-16 px-4'>
@@ -37,6 +48,20 @@ function TopAppBar({ toggleSidebar }) {
         />
         <Logo classes='lg:hidden' />
       </div>
+
+      {param.conversationId && (
+        <IconBtn
+          icon='delete'
+          classes='ms-auto me-2 lg:hidden'
+          onClick={() => {
+            const { title } = conversations.documents.find(
+              ({ $id }) => param.conversationId === $id,
+            );
+
+            deleteConversation({ id: param.conversationId, title, submit });
+          }}
+        />
+      )}
 
       <div className='menu-wrapper'>
         <IconBtn onClick={setShowMenu}>

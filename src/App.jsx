@@ -1,18 +1,59 @@
 // NODE MODULES...
 import { motion } from 'framer-motion';
-import { Outlet, useParams } from 'react-router-dom';
+import { useEffect, useRef } from 'react';
+import {
+  Outlet,
+  useParams,
+  useNavigation,
+  useActionData,
+} from 'react-router-dom';
 
 // COMPONENTS...
 import PageTitle from './components/PageTitle';
 import Sidebar from './components/Sidebar';
 import TopAppBar from './components/TopAppBar';
-import { useToggle } from './hooks/useToggle';
 import Greetings from './components/Greetings';
 import PromtField from './components/PromtField';
 
+// CUSTOM HOOK...
+import { useToggle } from './hooks/useToggle';
+import { useSnackbar } from './hooks/useSnackbar';
+import { usePromptPreLoader } from './hooks/userPromptPreloader';
+
 function App() {
-  const [isSidebarOpen, toggleSidebar] = useToggle();
+  const navigation = useNavigation();
   const params = useParams();
+  const [isSidebarOpen, toggleSidebar] = useToggle();
+
+  const isNormalLoad = navigation.state === 'loading' && !navigation.formData;
+
+  const { promptPreLoaderValue } = usePromptPreLoader();
+
+  const { showSnackbar } = useSnackbar();
+
+  // GET THE DATA PASSED FROM A FORM ACTION...
+  const actionData = useActionData();
+
+  const chatHistoryRef = useRef();
+
+  useEffect(() => {
+    const chatHistory = chatHistoryRef.current;
+    if (promptPreLoaderValue) {
+      chatHistory.scroll({
+        top: chatHistory.scrollHeight - chatHistory.clientHeight,
+        behavior: 'smooth',
+      });
+    }
+  }, [chatHistoryRef, promptPreLoaderValue]);
+
+  // SHOW SNACKBAR AFTER DELETING A CONVERSATION...
+  useEffect(() => {
+    if (actionData?.conversationTitle) {
+      showSnackbar({
+        message: `Deleted '${actionData.conversationTitle} conversation.`,
+      });
+    }
+  }, [actionData, showSnackbar]);
 
   return (
     <>
@@ -31,9 +72,16 @@ function App() {
           <TopAppBar toggleSidebar={toggleSidebar} />
 
           {/* MAIN-CONTENT */}
-          <div className='px-5 pb-5 flex flex-col overflow-y-auto '>
+          <div
+            ref={chatHistoryRef}
+            className='px-5 pb-5 flex flex-col overflow-y-auto '
+          >
             <div className='max-w-[840px] w-full mx-auto grow'>
-              {params.conversationId ? <Outlet /> : <Greetings />}
+              {isNormalLoad ? null : params.conversationId ? (
+                <Outlet />
+              ) : (
+                <Greetings />
+              )}
             </div>
           </div>
 

@@ -54,12 +54,33 @@ const userPromptAction = async (formData) => {
   return redirect(`/${conversation.$id}`);
 };
 
+const conversationAction = async (formData) => {
+  const conversationId = formData.get('conversation_id');
+  const conversationTitle = formData.get('conversation_title');
+
+  try {
+    await databases.deleteDocument(
+      import.meta.env.VITE_APPWRITE_DATABASE_ID,
+      'conversations',
+      conversationId,
+    );
+
+    return { conversationTitle };
+  } catch (error) {
+    console.log(`Error to deleting conversation: ${error.message}`);
+  }
+};
+
 const appAction = async ({ request }) => {
   const formData = await request.formData();
   const requestType = formData.get('request_type');
 
   if (requestType === 'user_prompt') {
     return await userPromptAction(formData);
+  }
+
+  if (requestType === 'delete_conversation') {
+    return await conversationAction(formData);
   }
 };
 
