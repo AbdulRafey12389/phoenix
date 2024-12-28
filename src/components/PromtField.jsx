@@ -1,7 +1,7 @@
 // NODE MODULES...
 import { motion } from 'framer-motion';
 import { useCallback, useRef, useState } from 'react';
-import { useSubmit, useNavigation } from 'react-router-dom';
+import { useSubmit, useNavigation, useParams } from 'react-router-dom';
 
 // COMPONENTS...
 import { IconBtn } from './Button';
@@ -20,6 +20,9 @@ const PromtField = () => {
 
   // INITIAL NAVIGATION FOR CHCKING STATE...
   const navigation = useNavigation();
+
+  // RETRIEVE THE CONVERSATIONID FROM URL PATH...
+  const { conversationId } = useParams();
 
   const handleInputChange = useCallback(() => {
     if (inputField.current.innerText === '\n')
@@ -68,13 +71,13 @@ const PromtField = () => {
       {
         method: 'POST',
         encType: 'application/x-www-form-urlencoded',
-        action: '/',
+        action: `/${conversationId || ''}`,
       },
     );
 
     inputField.current.innerHTML = '';
     handleInputChange();
-  }, [handleInputChange, inputValue, navigation.state, submit]);
+  }, [handleInputChange, inputValue, navigation.state, submit, conversationId]);
 
   const promptFieldVariant = {
     hidden: { scaleX: 0 },
