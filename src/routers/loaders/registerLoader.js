@@ -13,7 +13,7 @@ const registerLoader = async () => {
     return null;
   }
 
-  return redirect('/home');
+  return redirect('/');
 };
 
 export default registerLoader;

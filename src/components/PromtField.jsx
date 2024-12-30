@@ -71,7 +71,7 @@ const PromtField = () => {
       {
         method: 'POST',
         encType: 'application/x-www-form-urlencoded',
-        action: `/home/${conversationId || ''}`,
+        action: `/${conversationId || ''}`,
       },
     );
 

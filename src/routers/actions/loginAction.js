@@ -17,7 +17,7 @@ const loginAction = async ({ request }) => {
     );
 
     // ON SUCESSFULLY LOGIN REDIRECT THE USER TO THE HOMEPAGE...
-    return redirect('/home');
+    return redirect('/');
   } catch (error) {
     return {
       message: error.message,
