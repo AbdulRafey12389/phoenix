@@ -14,7 +14,7 @@ const deleteConversation = ({ id, title, submit }) => {
     {
       method: 'DELETE',
       encType: 'application/x-www-form-urlencoded',
-      action: '/',
+      action: '/home',
     },
   );
 };

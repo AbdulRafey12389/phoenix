@@ -11,7 +11,7 @@ const resetPasswordLoader = async ({ request }) => {
     // ATTEMPT TO RETRIEVE THE USER'S ACCOUNT INFORMATION...
     await account.get();
 
-    return redirect('/');
+    return redirect('/home');
   } catch (error) {
     console.log('Error to getting user sesstion: ', error.message);
   }

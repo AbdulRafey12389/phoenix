@@ -36,7 +36,7 @@ const registerAction = async ({ request }) => {
     return redirect('/login');
   }
 
-  return redirect('/');
+  return redirect('/home');
 };
 
 export default registerAction;

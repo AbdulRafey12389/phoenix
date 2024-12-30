@@ -33,7 +33,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
             <Logo />
           </div>
           <ExtendedFab
-            href='/'
+            href='/home'
             text='New chat'
             classes='mb-4'
             onClick={toggleSidebar}

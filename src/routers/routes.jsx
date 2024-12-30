@@ -30,14 +30,14 @@ import conversationAction from './actions/conversationAction';
 // ROUTER...
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: '/home',
     element: <App />,
     loader: appLoader,
     action: appAction,
     errorElement: <RootError />,
     children: [
       {
-        path: '/:conversationId',
+        path: '/home/:conversationId',
         element: <Conversation />,
         loader: conversationLoader,
         action: conversationAction,
